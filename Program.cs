@@ -50,6 +50,8 @@ namespace EmployeesWebAPI
 
                 database.Employees.Add(employee);
                 database.SaveChanges();
+
+                return Results.Ok();
             });
 
             app.Run();
