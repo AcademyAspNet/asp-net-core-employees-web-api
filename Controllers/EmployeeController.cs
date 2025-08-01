@@ -1,6 +1,5 @@
 ﻿using EmployeesWebAPI.Data;
 using EmployeesWebAPI.Data.Entities;
-using EmployeesWebAPI.Filters;
 using EmployeesWebAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -99,6 +98,7 @@ namespace EmployeesWebAPI.Controllers
             employee.FirstName = employeeDto.FirstName!;
             employee.LastName = employeeDto.LastName!;
             employee.Email = employeeDto.Email!;
+            employee.DepartmentId = employee.DepartmentId;
             employee.Position = employeeDto.Position!;
 
             _database.Employees.Update(employee);
@@ -119,8 +119,7 @@ namespace EmployeesWebAPI.Controllers
         }
 
         [HttpPatch("{id:int}")]
-        [DisableModelValidation]
-        public IActionResult PartialUpdateEmployee([FromRoute] int id, [FromBody] EmployeeDto employeeDto)
+        public IActionResult PartialUpdateEmployee([FromRoute] int id, [FromBody] PartialEmployeeDto employeeDto)
         {
             Employee? employee = _database.Employees.Find(id);
 
@@ -144,6 +143,12 @@ namespace EmployeesWebAPI.Controllers
             if (!string.IsNullOrWhiteSpace(employeeDto.Email))
             {
                 employee.Email = employeeDto.Email;
+                isSomethingChanged = true;
+            }
+
+            if (employeeDto.DepartmentId != null)
+            {
+                employee.DepartmentId = employeeDto.DepartmentId;
                 isSomethingChanged = true;
             }
 

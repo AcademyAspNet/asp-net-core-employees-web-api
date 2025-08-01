@@ -15,6 +15,10 @@ namespace EmployeesWebAPI.Data.Entities
         [MaxLength(320)]
         public required string Email { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+        public Department? Department { get; set; }
+
         [MaxLength(128)]
         public required string Position { get; set; }
 

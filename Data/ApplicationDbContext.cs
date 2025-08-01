@@ -10,6 +10,7 @@ namespace EmployeesWebAPI.Data
         private readonly IConfiguration _configuration;
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         public ApplicationDbContext(IConfiguration configuration)
         {
@@ -34,6 +35,11 @@ namespace EmployeesWebAPI.Data
             modelBuilder.Entity<Employee>()
                         .HasIndex(e => e.Email)
                         .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                        .HasOne(e => e.Department)
+                        .WithMany(d => d.Employees)
+                        .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
